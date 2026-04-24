@@ -23,6 +23,7 @@ import collections
 import collections.abc
 
 collections.Mapping = collections.abc.Mapping
+collections.Sequence = collections.abc.Sequence
 __author__ = 'Bruce Leban'
 
 # system modules
@@ -224,7 +225,8 @@ def _ExpandVariable(var, specials, params, name, default=''):
     value = sanitize.SanitizeHtml(str(value))
   elif escaper_name == 'pprint':  # for debugging
     value = '<pre>' + cgi.escape(pprint.pformat(value)) + '</pre>'
-
+  elif escaper_name is None:
+    value = html.escape(str(value))
   if value is None:
     value = ''
   return value
