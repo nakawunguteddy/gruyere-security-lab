@@ -20,6 +20,9 @@ from __future__ import print_function
 from builtins import str
 from builtins import range
 import collections
+import collections.abc
+
+collections.Mapping = collections.abc.Mapping
 __author__ = 'Bruce Leban'
 
 # system modules
@@ -263,9 +266,9 @@ def _GetValue(collection, index, default=''):
   Returns:
     value
   """
-  if isinstance(collection, collections.Mapping) and index in collection:
+  if isinstance(collection, collections.abc.Mapping) and index in collection:
     value = collection[index]
-  elif (isinstance(collection, collections.Sequence) and index.isdigit() and
+  elif (isinstance(collection, collections.abc.Sequence) and index.isdigit() and
         int(index) < len(collection)):
     value = collection[int(index)]
   else:
