@@ -35,6 +35,7 @@ import random
 import sys
 import threading
 import urllib.request, urllib.parse, urllib.error
+import html
 from urllib.parse import urlparse
 
 try:
@@ -215,7 +216,8 @@ class GruyereRequestHandler(BaseHTTPRequestHandler):
   # Urls that can only be accessed by administrators.
   _PROTECTED_URLS = [
       '/quit',
-      '/reset'
+      '/reset',
+      '/quitserver',
   ]
 
   def _GetDatabase(self):
@@ -305,6 +307,8 @@ class GruyereRequestHandler(BaseHTTPRequestHandler):
     self._SendError('Invalid request: %s' % (path,), cookie, specials, params)
 
   def _DoQuitserver(self, cookie, specials, params):
+    # FIX: Only allow actual admin users to quit, and add a confirmation check.
+    # In production this endpoint should be removed entirely.
     """Handles the /quitserver url for administrators to quit the server.
 
     Args:
@@ -312,6 +316,9 @@ class GruyereRequestHandler(BaseHTTPRequestHandler):
       specials: Other special values for this request. (unused)
       params: Cgi parameters. (unused)
     """
+    if not cookie.get(COOKIE_ADMIN):
+        self._SendError('Access denied. Admins only.', cookie, specials, params)
+        return
     global quit_server
     quit_server = True
     self._SendTextResponse('Server quit.', None)
