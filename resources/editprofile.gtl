@@ -20,7 +20,7 @@
   <h3>Edit your profile.</h3>
 [[/if:!_cookie.is_admin]]
 [[if:_message]]
-<div class='message'>{{_message}}</div>
+<div class='message'>{{_message:text}}</div>
 [[/if:_message]]
 
 <form method='get' action='/{{_unique_id}}/saveprofile'>
@@ -94,7 +94,7 @@
 <tr><td>
     Private Snippet:
   </td><td>
-    <textarea name='private_snippet' rows='10' style='width:100%'>[[if:uid]]{{_db.*uid.private_snippet}}[[/if:uid]][[if:!uid]]{{_profile.private_snippet}}[[/if:!uid]]</textarea>
+    <textarea name='private_snippet' rows='10' style='width:100%'>[[if:uid]]{{_db.*uid.private_snippet:text}}[[/if:uid]][[if:!uid]]{{_profile.private_snippet:text}}[[/if:!uid]]</textarea>
 </td></tr>
 [[if:_cookie.is_admin]]
 <tr><td>
